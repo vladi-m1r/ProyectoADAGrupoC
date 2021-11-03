@@ -1,14 +1,14 @@
 package P1_Ordenamiento;
 
 public class InsertionSort {
-	
-	public static void sort(int [] array) {
 
-		for (int i = 0; i < array.length; i++) {
-			int value = array[i];
+	public static <T extends Comparable<T>> void sort(T [] array, int ini, int fin) {
+
+		for (int i = ini + 1; i < fin + 1; i++) {
+			T value = array[i];
 			int j = i - 1;
 
-			while (j >= 0 && array[j] > value) {
+			while (j >= 0 && array[j].compareTo(value) > 0) {
 				array[j+1] = array[j];
 				j--;
 			}
