@@ -1,55 +1,119 @@
 package P1_Ordenamiento;
 
+import java.util.Random;
+
 public class Main {
+	
 	public static void main(String[] args) {
-		test();
+		System.out.println("[QuickSort Test]");
+		testQuickSort();
+		
+		System.out.println("\n\n[InsertionSort Test]");
+		testHeapSort();
+	}
+
+	// Test con 3 casos de prueba
+	public static void testQuickSort() {
+		String arr[] = generateStr(10, 2, 10);
+		Integer arr2[] = generateInt(10);
+		Integer arr3[] = generateInt(10);
+		
+		System.out.println("Caso 1");
+		System.out.println("Input: ");
+		mostrarArr(arr);
+		System.out.println("Output: ");
+		QuickSort.sort(arr, 0, arr.length - 1);
+		mostrarArr(arr);
+		
+		System.out.println("\nCaso 2");
+		System.out.println("Input: ");
+		mostrarArr(arr2);
+		System.out.println("Output: ");
+		QuickSort.sort(arr2, 0, arr2.length - 1);
+		mostrarArr(arr2);
+		
+		
+		System.out.println("\nCaso 3");
+		System.out.println("Input: ");
+		mostrarArr(arr3);
+		System.out.println("Output: ");
+		QuickSort.sort(arr3, 0, arr2.length - 1);
+		mostrarArr(arr3);
 	}
 	
-	// Test para probar los 3 metodos de ordenamiento : Ok si pasa la prueba y Error si no
-	public static void test() {
-		// Insertion sort test
-		int [] array = {9, 1, 4, 3, 2, 5, 7, 6, 8};
-		InsertionSort.sort(array);
+	public static void testHeapSort() {
+		String arr[] = generateStr(10, 2, 10);
+		Integer arr2[] = generateInt(10);
+		Integer arr3[] = generateInt(10);
 		
-		System.out.print("Insertion Sort Test: ");
-		if(comparar(array, new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9})) {
-			System.out.println("OK");
-		}else {
-			System.out.println("ERROR");
+		System.out.println("Caso 1");
+		System.out.println("Input: ");
+		mostrarArr(arr);
+		System.out.println("Output: ");
+		HeapSort.sort(arr);
+		mostrarArr(arr);
+		
+		System.out.println("\nCaso 2");
+		System.out.println("Input: ");
+		mostrarArr(arr2);
+		System.out.println("Output: ");
+		HeapSort.sort(arr2);
+		mostrarArr(arr2);
+		
+		
+		System.out.println("\nCaso 3");
+		System.out.println("Input: ");
+		mostrarArr(arr3);
+		System.out.println("Output: ");
+		HeapSort.sort(arr3);
+		mostrarArr(arr3);
+	}
+
+	public static Integer[] generateInt(int n) {
+		Random rd = new Random();
+		
+		Integer array [] = new Integer[n];
+		
+		for(int i=0; i < n; i++) {
+			array[i] = rd.nextInt(n);
 		}
 		
-		
-		// Quick sort test
-		array = new int[]{9, 1, 4, 3, 2, 5, 7, 6, 8};
-		QuickSort.sort(array, 0, array.length - 1);
-		
-		System.out.print("Quick Sort Test: ");
-		if(comparar(array, new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9})) {
-			System.out.println("OK");
-		}else {
-			System.out.println("ERROR");
-		}
-		
-		
-		// Heap sort test
-		array = new int[]{9, 1, 4, 2, 3, 5, 7, 6, 8};
-		HeapSort.sort(array);
-		
-		System.out.print("Heap Sort Test: ");
-		if(comparar(array, new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9})) {
-			System.out.println("OK");
-		}else {
-			System.out.println("ERROR");
-		}
+		return array;
 	}
 	
-	// Compara que los elementos de 2 arreglos tengan los mismos elementos en el mismo orden
-	public static boolean comparar(int [] arr1, int [] arr2) {
-		for (int i = 0; i < arr1.length; i++) {
-			if (arr1[i] != arr2[i])
-				return false;
+	/*
+	 * n -> numeros de elementos
+	 * min -> minimo numero de letras por palabra generada
+	 * max -> máximo numero de letras por palabra generada
+	 */
+	public static String[] generateStr(int n, int min, int max) {
+
+		Random rd = new Random();
+		String array [] = new String[n];
+		
+		for(int i=0; i < n; i++) {
+			array[i] = "";
+			for(int j=0; j < min + rd.nextInt(max - min); j++) {
+				array[i] += (char)(rd.nextInt(25) + 97);
+			}
 		}
 		
-		return true;
+		return array;
+	}
+
+	public static <T> void mostrarArr(T[] array) {
+		
+		String arrStr = "[";
+		
+		for (int i = 0; i < array.length; i++) {
+			arrStr += array[i];
+			if(i != array.length - 1) {
+				arrStr += ", ";
+			}
+		}
+		
+		arrStr += "]";
+		
+		System.out.println(arrStr);
 	}
 }
