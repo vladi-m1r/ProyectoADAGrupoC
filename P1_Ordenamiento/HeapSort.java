@@ -3,16 +3,10 @@ package P1_Ordenamiento;
 public class HeapSort {
 	
 	public static <T extends Comparable<T>> void sort(T [] array) {
-		/*
-			3 Pasos Recursivos hasta que el tamaño del arreglo sea igual a 1:
-			1 -> Conseguir Max Heap
-			2 -> Comparar el nodo modificado
-			3 -> Intercambiar el primer nodo con el ultimo y borrar el ultimo
-		*/
+
 		int size = array.length;
 
 		while(size > 1) {
-			// Visita todo los nodos empezando desde el ultimo
 			for (int index = (size / 2) - 1; index >= 0; index--) {
 				// 2 child nodes
 				int nodePos = index*2 + 1;
