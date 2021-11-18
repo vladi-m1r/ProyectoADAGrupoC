@@ -22,28 +22,27 @@ public class DepthFirstSearch {
 	 *      [C] 
 	 */
 	
-	public static void search(Raster graph, int x, int y) {
-		search(graph, new Node(x, y), new boolean[graph.getHeight()][graph.getWidth()]);
+	public static void search(Raster graph, int x, int y, int[][] comp, int mark, int range) {
+		search(graph, new Node(x, y), comp, mark, new Range(graph.getSample(x, y, 0), range));
 	}
 	
-	private static void search(Raster graph, Node current, boolean [][] visited) {
+	private static void search(Raster graph, Node current, int[][] comp, int mark, Range range) {
 		
 		// filas y columnas
-		visited[current.y][current.x] = true;
+		comp[current.y][current.x] = mark;
 		
 		Node [] neightbors = new Node[4];
-		fillNeighbours(neightbors, graph, current);
+		fillNeighbours(neightbors, graph, current, range);
 		
 		for (int i = 0; i < neightbors.length; i++) {
-			if(!neightbors[i].deactive && !visited[neightbors[i].y][neightbors[i].x]) {
-				System.out.print(graph.getSample(neightbors[i].x, neightbors[i].y, 0) + " - ");
-				System.out.println("[" + neightbors[i].y + ", " + neightbors[i].x + "]");
-				search(graph, neightbors[i], visited);
+			if(!neightbors[i].deactive && comp[neightbors[i].y][neightbors[i].x] == 0) {
+				search(graph, neightbors[i], comp, mark, range);
 			}
 		}
 	}
 	
-	private static void fillNeighbours(Node [] neighbours, Raster graph, Node current) {
+	// Mejorar esta funcion, tiene muchos errores
+	private static void fillNeighbours(Node [] neighbours, Raster graph, Node current, Range range) {
 
 		neighbours[0] = new Node(current.x, current.y - 1);
 		neighbours[1] = new Node(current.x + 1, current.y);
@@ -51,13 +50,18 @@ public class DepthFirstSearch {
 		neighbours[3] = new Node(current.x - 1, current.y);
 		
 		for (Node node : neighbours)
-			checkLimits(node, graph.getWidth(), graph.getHeight());
+			checkLimits(node, range, graph);
 	}
 	
 	// chequea la posicion de x e y de un nodo para que no se salga del limite
-	private static void checkLimits(Node node, int x, int y) {
-		if(node.x > x - 1 || node.y > y - 1 || node.x < 0 || node.y < 0) {
+	private static void checkLimits(Node node, Range range, Raster graph) {
+		// El nodo no se usa si no esta en el rango o esta fuera de los limites
+		if(node.x > graph.getWidth() - 1 || node.y > graph.getHeight() - 1 || node.x < 0 || node.y < 0) {
 			node.deactive = true;
+		}else {
+			if(!range.inTheRange(graph.getSample(node.x, node.y, 0))) {
+				node.deactive = true;
+			}
 		}
 	}
 }
@@ -73,4 +77,19 @@ class Node{
 		this.y = y;
 	}
 
+}
+
+class Range{
+	
+	public int inf;
+	public int sup;
+	
+	Range(int mid, int range){
+		this.inf = mid - range;
+		this.sup = mid + range;
+	}
+		
+	public boolean inTheRange(int number) {
+		return number >= inf && number <= sup;
+	}
 }
