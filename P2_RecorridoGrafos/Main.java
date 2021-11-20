@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 
 public class Main {
 	public static void main(String[] args) {
-		testDepthFirstSearch();
+		testBreadthFirstSearch();
 	}
 
 	public static void testDepthFirstSearch() {
@@ -40,10 +40,24 @@ public class Main {
 	}
 	
 	public static void testBreadthFirstSearch() {
+		System.out.println("BreadthFirstSearch");
 		try {
-			BufferedImage image = ImageIO.read(new File("src/P2_RecorridoGrafos/images/image2.png"));
+			BufferedImage image = ImageIO.read(new File("src/P2_RecorridoGrafos/images/dory.jpg"));
 			Raster raster = image.getRaster();
-			// sin definir
+			int [][] componentes = generateComp(raster.getHeight(), raster.getWidth());
+			// Busqueda profunda llena una matriz de componentes.
+			int rango = 75;
+			
+			for (int y = 0; y < componentes.length; y++) {
+				for (int x = 0; x < componentes[0].length; x++) {
+					if(componentes[y][x] == -1) {
+						BreadthFirstSearch.search(raster, componentes, x, y, rango);
+					}
+				}
+			}
+			
+			showComponents(componentes);
+			draw(componentes);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
