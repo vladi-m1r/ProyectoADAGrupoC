@@ -28,40 +28,53 @@ public class DepthFirstSearch {
 	
 	private static void search(Raster graph, Node current, int[][] comp, int mark, Range range) {
 		
-		// filas y columnas
 		comp[current.y][current.x] = mark;
+		Link linklist = buildLink(graph, range, current, comp);
 		
-		Node [] neightbors = new Node[4];
-		fillNeighbours(neightbors, graph, current, range);
-		
-		for (int i = 0; i < neightbors.length; i++) {
-			if(!neightbors[i].deactive && comp[neightbors[i].y][neightbors[i].x] == 0) {
-				search(graph, neightbors[i], comp, mark, range);
-			}
+		while(!linklist.isEmpty()) {
+			search(graph, linklist.getNode(), comp, mark, range);
 		}
+
 	}
 	
-	// Mejorar esta funcion, tiene muchos errores
-	private static void fillNeighbours(Node [] neighbours, Raster graph, Node current, Range range) {
-
-		neighbours[0] = new Node(current.x, current.y - 1);
-		neighbours[1] = new Node(current.x + 1, current.y);
-		neighbours[2] = new Node(current.x, current.y + 1);
-		neighbours[3] = new Node(current.x - 1, current.y);
+	private static Link buildLink(Raster graph, Range range, Node current, int[][] comp) {
+		Link link = new Link();
+		int x, y;
 		
-		for (Node node : neighbours)
-			checkLimits(node, range, graph);
+		x = current.x;
+		y = current.y - 1;
+		if(checkLimits(x, y, range, graph, comp)) {
+			link.addNode(new Node(x, y));
+		}
+		
+		x = current.x + 1;
+		y = current.y;
+		if(checkLimits(x, y, range, graph, comp)) {
+			link.addNode(new Node(x, y));
+		}
+		
+		x = current.x;
+		y = current.y + 1;
+		if(checkLimits(x, y, range, graph, comp)) {
+			link.addNode(new Node(x, y));
+		}
+		
+		x = current.x - 1;
+		y = current.y;
+		if(checkLimits(x, y, range, graph, comp)) {
+			link.addNode(new Node(x, y));
+		}
+		
+		return link;
 	}
 	
 	// chequea la posicion de x e y de un nodo para que no se salga del limite
-	private static void checkLimits(Node node, Range range, Raster graph) {
+	private static boolean checkLimits(int x, int y, Range range, Raster graph, int [][] visited) {
 		// El nodo no se usa si no esta en el rango o esta fuera de los limites
-		if(node.x > graph.getWidth() - 1 || node.y > graph.getHeight() - 1 || node.x < 0 || node.y < 0) {
-			node.deactive = true;
+		if(x > graph.getWidth() - 1 || y > graph.getHeight() - 1 || x < 0 || y < 0) {
+			return false;
 		}else {
-			if(!range.inTheRange(graph.getSample(node.x, node.y, 0))) {
-				node.deactive = true;
-			}
+			return visited[y][x] == -1 && range.inTheRange(graph.getSample(x, y, 0));
 		}
 	}
 }
@@ -71,6 +84,7 @@ class Node{
 	public int x;
 	public int y;
 	public boolean deactive;
+	public Node next;
 	
 	Node(int x, int y) {
 		this.x = x;
@@ -91,5 +105,27 @@ class Range{
 		
 	public boolean inTheRange(int number) {
 		return number >= inf && number <= sup;
+	}
+}
+
+class Link {
+	public Node head;
+	
+	public void addNode(Node node) {
+		if(head == null) {
+			head = node;
+		}else {
+			node.next = node;
+		}
+	}
+	
+	public Node getNode() {
+		Node node = head;
+		head = head.next;
+		return node;
+	}
+	
+	public boolean isEmpty() {
+		return head == null;
 	}
 }
