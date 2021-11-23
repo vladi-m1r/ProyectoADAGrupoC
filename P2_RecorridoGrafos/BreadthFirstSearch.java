@@ -8,6 +8,7 @@ public class BreadthFirstSearch {
 	
 	public static void search(Raster graph, int [][] comps, int x, int y, int rang) {
 		
+		
 		Queue<Node> queue = new LinkedList<Node>();
 		queue.add(new Node(x, y));
 		Range range = new Range(graph.getSample(x, y, 0), rang);
@@ -30,24 +31,28 @@ public class BreadthFirstSearch {
 		y = current.y - 1;
 		if(checkLimits(x, y, range, graph, comp)) {
 			queue.add(new Node(x, y));
+			comp[y][x] = graph.getSample(x, y, 0);
 		}
 		
 		x = current.x + 1;
 		y = current.y;
 		if(checkLimits(x, y, range, graph, comp)) {
 			queue.add(new Node(x, y));
+			comp[y][x] = graph.getSample(x, y, 0);
 		}
 		
 		x = current.x;
 		y = current.y + 1;
 		if(checkLimits(x, y, range, graph, comp)) {
 			queue.add(new Node(x, y));
+			comp[y][x] = graph.getSample(x, y, 0);
 		}
 		
 		x = current.x - 1;
 		y = current.y;
 		if(checkLimits(x, y, range, graph, comp)) {
 			queue.add(new Node(x, y));
+			comp[y][x] = graph.getSample(x, y, 0);
 		}
 		
 	}
