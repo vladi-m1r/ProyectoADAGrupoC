@@ -7,11 +7,10 @@ import java.util.Stack;
 public class DepthFirstSearch {
 	
 	public static void search(Raster graph, int x, int y, int[][] comp, int gray, int range) {
-		int count = 0;
-		search(graph, new Node(x, y), comp, gray, new Range(graph.getSample(x, y, 0), range), count);
+		search(graph, new Node(x, y), comp, gray, new Range(graph.getSample(x, y, 0), range));
 	}
 	
-	private static void search(Raster graph, Node current, int[][] comp, int gray, Range range, int count) {
+	private static void search(Raster graph, Node current, int[][] comp, int gray, Range range) {
 		
 		comp[current.y][current.x] = gray;
 		Stack<LinkedList<Node>> stack = new Stack<LinkedList<Node>>();
