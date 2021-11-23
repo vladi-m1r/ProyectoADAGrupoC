@@ -38,36 +38,21 @@ public class DepthFirstSearch {
 	
 	private static LinkedList<Node> buildLink(Raster graph, Range range, Node current, int[][] comp) {
 		
-		LinkedList<Node> link = new LinkedList<Node>();
-		int x, y;
+		LinkedList<Node> list = new LinkedList<Node>();
 		
-		x = current.x;
-		y = current.y - 1;
-		if(checkLimits(x, y, range, graph) && canBeVisited(x, y, comp)) {
-			link.add(new Node(x, y));
-		}
+		addNeighbor(current.x, current.y - 1, list, range, graph, comp);
+		addNeighbor(current.x + 1, current.y, list, range, graph, comp);
+		addNeighbor(current.x, current.y + 1, list, range, graph, comp);
+		addNeighbor(current.x - 1, current.y, list, range, graph, comp);
 		
-		x = current.x + 1;
-		y = current.y;
-		if(checkLimits(x, y, range, graph) && canBeVisited(x, y, comp)) {
-			link.add(new Node(x, y));
-		}
-		
-		x = current.x;
-		y = current.y + 1;
-		if(checkLimits(x, y, range, graph) && canBeVisited(x, y, comp)) {
-			link.add(new Node(x, y));
-		}
-		
-		x = current.x - 1;
-		y = current.y;
-		if(checkLimits(x, y, range, graph) && canBeVisited(x, y, comp)) {
-			link.add(new Node(x, y));
-		}
-		
-		return link;
+		return list;
 	}
 	
+	public static void addNeighbor(int x, int y, LinkedList<Node> list, Range range, Raster graph, int [][] comp) {
+		if(checkLimits(x, y, range, graph) && canBeVisited(x, y, comp)) {
+			list.add(new Node(x, y));
+		}
+	}
 	// chequea la posicion de x e y de un nodo para que no se salga del limite
 	private static boolean checkLimits(int x, int y, Range range, Raster graph) {
 		// El nodo no se usa si no esta en el rango o esta fuera de los limites
