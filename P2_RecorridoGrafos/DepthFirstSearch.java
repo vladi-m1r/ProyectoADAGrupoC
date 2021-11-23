@@ -27,7 +27,6 @@ public class DepthFirstSearch {
 					comp[node.y][node.x] = gray;
 					
 					if(!tempList.isEmpty()) {
-						System.out.println("Aun no estaba vacio");
 						stack.add(tempList);
 					}
 					
