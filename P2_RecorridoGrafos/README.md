@@ -15,11 +15,14 @@ Algoritmo iterativo que usa colas para encolar cada pixel vecino del pixel visit
 ---
 ## Analisis de complejidad del algoritmo
 - DFS
+
 ![DFS-1](https://github.com/vladi-m1r/img-repo/blob/master/DFSCA.png?raw=true)
 ![DFS-2](https://github.com/vladi-m1r/img-repo/blob/master/DFSCA2.png?raw=true)
 
 Teniendo en cuenta solo el mejor de los casos en el cual linealmente se obtenga n stacks por busqueda en profundidad la complejidad algoritmica seria 7 + 7(N-1) + N = 8N -> O(N)
-- BFS
+
+ BFS
+
 ![BFS-1](https://github.com/vladi-m1r/img-repo/blob/master/BFSCA1.png?raw=true)
 ![BFS-2](https://github.com/vladi-m1r/img-repo/blob/master/BFSCA2.png?raw=true)
 
